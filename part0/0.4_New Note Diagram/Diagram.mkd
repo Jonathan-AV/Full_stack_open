@@ -1,0 +1,63 @@
+```mermaid
+    sequenceDiagram
+        Actor User
+        Participant Browser
+        Participant Server
+
+        User ->> Browser: Writes the note
+        activate Browser
+        User ->> Browser: Clicks Save Button
+
+        Browser ->> Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+        deactivate Browser
+
+        activate Server
+        note left of Server: The note data is send as the body of the request
+        Server ->> Server: Adds the note to an array
+        Server -->> Browser: Status code 302
+        deactivate Server
+
+        activate Browser
+        note right of Browser: The Server asks to perform a request GET to /notes
+        Browser ->> Server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+        deactivate Browser
+
+        activate Server
+        Server -->> Browser: Status code 200 | Returns HTML Document
+        deactivate Server
+
+        activate Browser
+        note right of Browser: The browser renders the HTML document
+        Browser ->> Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+        deactivate Browser
+
+        activate Server
+        note left of Server: Asks for the CSS document due to the HTML document
+        Server -->> Browser: Status 200 | Returns CSS Document
+        deactivate Server
+
+        activate Browser
+        note right of Browser: The browser applies the Styles on the CSS document to the HTML
+        Browser ->> Server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+        deactivate Browser
+
+        activate Server
+        note left of Server: Asks for the JS document due to the HTML document
+        Server -->> Browser: Status code 200 | Returns JS Document
+        deactivate Server
+
+        activate Browser
+        note right of Browser: The browser executes the JS Document
+        Browser ->> Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+        deactivate Browser
+
+        activate Server
+        note left of Server: The browser requests data.json due to the JS Document
+        Server -->> Browser: Status 200 | Returns data.json 
+        deactivate Server
+
+        activate Browser
+        Browser ->> Browser: Displays notes
+        note right of Browser: The browser displays the notes form data.json
+        deactivate Browser
+```
